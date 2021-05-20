@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Movie Catalog</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="movie">Movie</string>
+    <string name="tv_show">TV Show</string>
+    <string name="title">Title</string>
+    <string name="poster">Poster</string>
+    <string name="release_date">Release date</string>
+    <string name="vote_rating">Vote rating</string>
+    <string name="vote_count">Vote count</string>
+    <string name="adult">Adult</string>
+    <string name="description">Description</string>
+    <string name="first_air">First air</string>
+</resources>
