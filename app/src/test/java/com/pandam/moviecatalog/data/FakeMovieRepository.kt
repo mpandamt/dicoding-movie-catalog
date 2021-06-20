@@ -6,8 +6,6 @@ import com.pandam.moviecatalog.data.source.MovieDataSource
 import com.pandam.moviecatalog.data.source.remote.MovieItem
 import com.pandam.moviecatalog.data.source.remote.RemoteDataSource
 import com.pandam.moviecatalog.data.source.remote.TvShowItem
-import com.pandam.moviecatalog.data.source.remote.response.MovieDetailResponse
-import com.pandam.moviecatalog.data.source.remote.response.TvShowDetailResponse
 
 class FakeMovieRepository (private val remoteDataSource: RemoteDataSource) : MovieDataSource {
 
@@ -38,7 +36,7 @@ class FakeMovieRepository (private val remoteDataSource: RemoteDataSource) : Mov
     override fun getMovie(movieId: Int): LiveData<MovieEntity> {
         val movieData = MutableLiveData<MovieEntity>()
         remoteDataSource.getMovieById(movieId, object : RemoteDataSource.LoadMovieDetailCallback {
-            override fun onMovieDetailReceived(movie: MovieDetailResponse) {
+            override fun onMovieDetailReceived(movie: MovieItem) {
                 val movieDetail = MovieEntity(
                     movie.id,
                     movie.title,
@@ -82,7 +80,7 @@ class FakeMovieRepository (private val remoteDataSource: RemoteDataSource) : Mov
         val tvData = MutableLiveData<TvShowEntity>()
         remoteDataSource.getTvShowById(tvShowId,
             object : RemoteDataSource.LoadTvShowDetailCallback {
-                override fun onTvShowDetailReceived(tvShow: TvShowDetailResponse) {
+                override fun onTvShowDetailReceived(tvShow: TvShowItem) {
                     val tvShowDetail = TvShowEntity(
                         tvShow.id,
                         tvShow.name,

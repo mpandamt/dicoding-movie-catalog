@@ -3,6 +3,7 @@ package com.pandam.moviecatalog.data
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doAnswer
+import com.nhaarman.mockitokotlin2.eq
 import com.pandam.moviecatalog.data.source.remote.MovieResponse
 import com.pandam.moviecatalog.data.source.remote.RemoteDataSource
 import com.pandam.moviecatalog.utils.DataDummy
@@ -46,13 +47,13 @@ class MovieRepositoryTest {
     fun getMovie() {
         doAnswer { invocation ->
             (invocation.arguments[1] as RemoteDataSource.LoadMovieDetailCallback)
-                .onMovieDetailReceived(movies)
+                .onMovieDetailReceived(movies[0])
             null
-        }.`when`(remote).getAllMovies(any())
-        val movieEntities = LiveDataTestUtil.getValue(movieRepository.getAllMovies())
-        com.nhaarman.mockitokotlin2.verify(remote).getAllMovies(any())
-        assertNotNull(movieEntities)
-        assertEquals(movies.size.toLong(), movieEntities.size.toLong())
+        }.`when`(remote).getMovieById(eq(movieId),any())
+        val movieEntity = LiveDataTestUtil.getValue(movieRepository.getMovie(movieId))
+        com.nhaarman.mockitokotlin2.verify(remote).getMovieById(eq(movieId),any())
+        assertNotNull(movieEntity)
+        assertEquals(movies[0].id, movieEntity.id)
     }
 
     @Test
@@ -70,5 +71,14 @@ class MovieRepositoryTest {
 
     @Test
     fun getTvShow() {
+        doAnswer { invocation ->
+            (invocation.arguments[1] as RemoteDataSource.LoadTvShowDetailCallback)
+                .onTvShowDetailReceived(tvShows[0])
+            null
+        }.`when`(remote).getTvShowById(eq(tvShowId),any())
+        val tvEntity = LiveDataTestUtil.getValue(movieRepository.getTvShow(tvShowId))
+        com.nhaarman.mockitokotlin2.verify(remote).getTvShowById(eq(tvShowId),any())
+        assertNotNull(tvEntity)
+        assertEquals(tvShows[0].id, tvEntity.id)
     }
 }

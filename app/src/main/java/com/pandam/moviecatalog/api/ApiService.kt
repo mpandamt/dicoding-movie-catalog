@@ -1,9 +1,9 @@
 package com.pandam.moviecatalog.api
 import com.pandam.moviecatalog.BuildConfig
+import com.pandam.moviecatalog.data.source.remote.MovieItem
 import com.pandam.moviecatalog.data.source.remote.MovieResponse
+import com.pandam.moviecatalog.data.source.remote.TvShowItem
 import com.pandam.moviecatalog.data.source.remote.TvShowResponse
-import com.pandam.moviecatalog.data.source.remote.response.MovieDetailResponse
-import com.pandam.moviecatalog.data.source.remote.response.TvShowDetailResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -26,11 +26,11 @@ interface ApiService {
     fun getMovieDetail(
         @Path("id") id:Int,
         @Query("api_key") api_key: String = BuildConfig.API_KEY
-    ): Call<MovieDetailResponse>
+    ): Call<MovieItem>
 
     @GET("tv/{id}")
     fun getTvShowDetail(
         @Path("id") id:Int,
         @Query("api_key") api_key: String = BuildConfig.API_KEY
-    ): Call<TvShowDetailResponse>
+    ): Call<TvShowItem>
 }

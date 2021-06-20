@@ -1,8 +1,6 @@
 package com.pandam.moviecatalog.data.source.remote
 
 import com.pandam.moviecatalog.api.ApiConfig
-import com.pandam.moviecatalog.data.source.remote.response.MovieDetailResponse
-import com.pandam.moviecatalog.data.source.remote.response.TvShowDetailResponse
 import com.pandam.moviecatalog.utils.EspressoIdlingResource
 import retrofit2.Call
 import retrofit2.Callback
@@ -63,10 +61,10 @@ class RemoteDataSource {
     fun getMovieById(movieId: Int, callback: LoadMovieDetailCallback) {
         val client = ApiConfig.getApiService().getMovieDetail(movieId)
         EspressoIdlingResource.increment()
-        client.enqueue(object : Callback<MovieDetailResponse> {
+        client.enqueue(object : Callback<MovieItem> {
             override fun onResponse(
-                call: Call<MovieDetailResponse>,
-                response: Response<MovieDetailResponse>
+                call: Call<MovieItem>,
+                response: Response<MovieItem>
             ) {
                 EspressoIdlingResource.decrement()
                 if(response.isSuccessful) {
@@ -76,7 +74,7 @@ class RemoteDataSource {
                 }
             }
 
-            override fun onFailure(call: Call<MovieDetailResponse>, t: Throwable) {
+            override fun onFailure(call: Call<MovieItem>, t: Throwable) {
                 EspressoIdlingResource.decrement()
             }
 
@@ -86,10 +84,10 @@ class RemoteDataSource {
     fun getTvShowById(tvShowId: Int, callback: LoadTvShowDetailCallback) {
         val client = ApiConfig.getApiService().getTvShowDetail(tvShowId)
         EspressoIdlingResource.increment()
-        client.enqueue(object : Callback<TvShowDetailResponse> {
+        client.enqueue(object : Callback<TvShowItem> {
             override fun onResponse(
-                call: Call<TvShowDetailResponse>,
-                response: Response<TvShowDetailResponse>
+                call: Call<TvShowItem>,
+                response: Response<TvShowItem>
             ) {
                 EspressoIdlingResource.decrement()
                 if(response.isSuccessful) {
@@ -99,7 +97,7 @@ class RemoteDataSource {
                 }
             }
 
-            override fun onFailure(call: Call<TvShowDetailResponse>, t: Throwable) {
+            override fun onFailure(call: Call<TvShowItem>, t: Throwable) {
                 EspressoIdlingResource.decrement()
             }
 
@@ -116,11 +114,11 @@ class RemoteDataSource {
     }
 
     interface LoadMovieDetailCallback {
-        fun onMovieDetailReceived(movie: MovieDetailResponse)
+        fun onMovieDetailReceived(movie: MovieItem)
     }
 
     interface LoadTvShowDetailCallback {
-        fun onTvShowDetailReceived(tvShow: TvShowDetailResponse)
+        fun onTvShowDetailReceived(tvShow: TvShowItem)
     }
 
     interface FailureCallback{
