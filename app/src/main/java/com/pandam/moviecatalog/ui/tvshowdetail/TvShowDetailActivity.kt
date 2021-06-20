@@ -1,14 +1,13 @@
 package com.pandam.moviecatalog.ui.tvshowdetail
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.pandam.moviecatalog.databinding.ActivityTvShowDetailBinding
 import com.pandam.moviecatalog.databinding.FragmentMovieBinding
-import com.pandam.moviecatalog.ui.moviedetail.MovieDetailActivity
 import com.pandam.moviecatalog.utils.Utils
+import com.versta.academy.viewmodel.ViewModelFactory
 
 class TvShowDetailActivity : AppCompatActivity() {
     private lateinit var fragmentMovieBinding: FragmentMovieBinding
@@ -25,22 +24,25 @@ class TvShowDetailActivity : AppCompatActivity() {
         val extras = intent.extras
         if (extras != null) {
             val tvShowId = extras.getInt(EXTRA_TV)
+            val factory = ViewModelFactory.getInstance(this)
+
             val viewModel = ViewModelProvider(
                 this,
-                ViewModelProvider.NewInstanceFactory()
+                factory
             )[TvShowDetailViewModel::class.java]
 
-            activityTvShowDetailBinding.apply {
-                val movie = viewModel.getTvShowById(tvShowId)
-                textTvTitle.text = movie.name
-                textOverview.text = movie.overview
-                textFirstAir.text = movie.first_air_date
-                textVote.text = movie.vote_average.toString()
-                textVoteCount.text = movie.vote_count.toString()
-                Glide.with(imgPoster)
-                    .load(movie.poster_path?.let { Utils().getImageUrl(it, 500) })
-                    .into(imgPoster)
-            }
+            viewModel.getTvShowById(tvShowId).observe(this, { tvShow ->
+                activityTvShowDetailBinding.apply {
+                    textTvTitle.text = tvShow.name
+                    textOverview.text = tvShow.overview
+                    textFirstAir.text = tvShow.first_air_date
+                    textVote.text = tvShow.vote_average.toString()
+                    textVoteCount.text = tvShow.vote_count.toString()
+                    Glide.with(imgPoster)
+                        .load(tvShow.poster_path?.let { Utils().getImageUrl(it, 500) })
+                        .into(imgPoster)
+                }
+            })
         }
     }
 }

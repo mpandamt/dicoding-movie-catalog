@@ -1,19 +1,12 @@
 package com.pandam.moviecatalog.ui.moviedetail
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.pandam.moviecatalog.data.MovieEntity
+import com.pandam.moviecatalog.data.source.MovieRepository
 import com.pandam.moviecatalog.utils.DataDummy
 
-class MovieDetailViewModel : ViewModel() {
+class MovieDetailViewModel(private val movieRepository: MovieRepository) : ViewModel() {
 
-    fun getMovieById(movieId: Int): MovieEntity {
-        lateinit var movie: MovieEntity
-        val movieEntities = DataDummy.generateDummyMovies()
-        for (movieEntity in movieEntities) {
-            if (movieEntity.id == movieId) {
-                movie = movieEntity
-            }
-        }
-        return movie
-    }
+    fun getMovieById(movieId: Int): LiveData<MovieEntity> = movieRepository.getMovie(movieId)
 }

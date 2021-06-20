@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pandam.moviecatalog.databinding.FragmentTvShowBinding
+import com.pandam.moviecatalog.ui.movie.MovieAdapter
+import com.versta.academy.viewmodel.ViewModelFactory
 
 class TvShowFragment : Fragment() {
     private lateinit var fragmentTvShowBinding: FragmentTvShowBinding
@@ -24,15 +26,20 @@ class TvShowFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
+            val factory = ViewModelFactory.getInstance(requireContext())
+
             val viewModel = ViewModelProvider(
                 this,
-                ViewModelProvider.NewInstanceFactory()
+                factory
             )[TvShowViewModel::class.java]
 
-            val tvShow = viewModel.getTvShow()
             val tvShowAdapter = TvShowAdapter()
-            tvShowAdapter.setMovies(tvShow)
-
+            fragmentTvShowBinding.progressBar.visibility = View.VISIBLE
+            viewModel.getTvShow().observe(viewLifecycleOwner,{tvShow ->
+                fragmentTvShowBinding.progressBar.visibility = View.GONE
+                tvShowAdapter.setMovies(tvShow)
+                tvShowAdapter.notifyDataSetChanged()
+            })
             with(fragmentTvShowBinding.rvTvShow) {
                 layoutManager = LinearLayoutManager(context)
                 setHasFixedSize(true)
