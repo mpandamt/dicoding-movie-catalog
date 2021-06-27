@@ -1,4 +1,4 @@
-package com.pandam.moviecatalog.ui.tvshow
+package com.pandam.moviecatalog.ui.favoritetvshow
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,12 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pandam.moviecatalog.databinding.FragmentTvShowBinding
-import com.pandam.moviecatalog.ui.movie.MovieAdapter
 import com.pandam.moviecatalog.vo.Status
-import com.pandam.moviecatalog.vo.Status.*
 import com.versta.academy.viewmodel.ViewModelFactory
 
-class TvShowFragment : Fragment() {
+class FavoriteTvShowFragment : Fragment() {
     private lateinit var fragmentTvShowBinding: FragmentTvShowBinding
 
     override fun onCreateView(
@@ -34,26 +32,14 @@ class TvShowFragment : Fragment() {
             val viewModel = ViewModelProvider(
                 this,
                 factory
-            )[TvShowViewModel::class.java]
+            )[FavoriteTvShowViewModel::class.java]
 
-            val tvShowAdapter = TvShowAdapter()
+            val tvShowAdapter = FavoriteTvShowAdapter()
             fragmentTvShowBinding.progressBar.visibility = View.VISIBLE
             viewModel.getTvShow().observe(viewLifecycleOwner,{tvShow ->
-                when(tvShow.status){
-                    SUCCESS -> {
-                        fragmentTvShowBinding.progressBar.visibility = View.GONE
-                        tvShowAdapter.submitList(tvShow.data)
-                        tvShowAdapter.notifyDataSetChanged()
-                    }
-                    ERROR -> {
-                        fragmentTvShowBinding.progressBar.visibility = View.GONE
-                        Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
-                    }
-                    LOADING -> {
-                        fragmentTvShowBinding.progressBar.visibility = View.VISIBLE
-                    }
-                }
-
+                fragmentTvShowBinding.progressBar.visibility = View.GONE
+                tvShowAdapter.submitList(tvShow)
+                tvShowAdapter.notifyDataSetChanged()
             })
             with(fragmentTvShowBinding.rvTvShow) {
                 layoutManager = LinearLayoutManager(context)

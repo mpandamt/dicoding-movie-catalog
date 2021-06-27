@@ -1,4 +1,4 @@
-package com.pandam.moviecatalog.ui.movie
+package com.pandam.moviecatalog.ui.favoritemovie
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,10 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pandam.moviecatalog.databinding.FragmentMovieBinding
 import com.pandam.moviecatalog.vo.Status
-import com.pandam.moviecatalog.vo.Status.*
 import com.versta.academy.viewmodel.ViewModelFactory
 
-class MovieFragment : Fragment() {
+class FavoriteMovieFragment : Fragment() {
     private lateinit var fragmentMovieBinding: FragmentMovieBinding
 
     override fun onCreateView(
@@ -32,27 +31,13 @@ class MovieFragment : Fragment() {
             val viewModel = ViewModelProvider(
                 this,
                 factory
-            )[MovieViewModel::class.java]
-            val movieAdapter = MovieAdapter()
+            )[FavoriteMovieViewModel::class.java]
+            val movieAdapter = FavoriteMovieAdapter()
             fragmentMovieBinding.progressBar.visibility = View.VISIBLE
             viewModel.getMovies().observe(viewLifecycleOwner,{movies ->
-                if (movies !=null){
-                    when(movies.status){
-                        SUCCESS -> {
-                            fragmentMovieBinding.progressBar.visibility = View.GONE
-                            movieAdapter.submitList(movies.data)
-                            movieAdapter.notifyDataSetChanged()
-                        }
-                        ERROR -> {
-                            fragmentMovieBinding.progressBar.visibility = View.GONE
-                            Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
-                        }
-                        LOADING -> {
-                            View.VISIBLE.also { fragmentMovieBinding.progressBar.visibility = it }
-                        }
-                    }
-                }
-
+                fragmentMovieBinding.progressBar.visibility = View.GONE
+                movieAdapter.submitList(movies)
+                movieAdapter.notifyDataSetChanged()
             })
             with(fragmentMovieBinding.rvMovie) {
                 layoutManager = LinearLayoutManager(context)

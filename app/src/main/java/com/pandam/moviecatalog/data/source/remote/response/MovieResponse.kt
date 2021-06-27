@@ -1,7 +1,6 @@
 package com.pandam.moviecatalog.data.source.remote
 
 import com.google.gson.annotations.SerializedName
-import com.pandam.moviecatalog.data.MovieEntity
 
 data class MovieResponse(
 

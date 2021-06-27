@@ -1,4 +1,4 @@
-package com.pandam.moviecatalog.ui.tvshow
+package com.pandam.moviecatalog.ui.favoritetvshow
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +7,6 @@ import com.pandam.moviecatalog.data.source.local.entity.TvShowEntity
 import com.pandam.moviecatalog.data.source.MovieRepository
 import com.pandam.moviecatalog.vo.Resource
 
-class TvShowViewModel(private val movieRepository: MovieRepository) : ViewModel() {
-    fun getTvShow(): LiveData<Resource<PagedList<TvShowEntity>>> = movieRepository.getAllTvShows()
+class FavoriteTvShowViewModel(private val movieRepository: MovieRepository) : ViewModel() {
+    fun getTvShow(): LiveData<PagedList<TvShowEntity>> = movieRepository.getFavoriteTvShows()
 }

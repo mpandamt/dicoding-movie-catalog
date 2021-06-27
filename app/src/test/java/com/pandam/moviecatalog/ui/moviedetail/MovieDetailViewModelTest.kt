@@ -3,9 +3,10 @@ package com.pandam.moviecatalog.ui.moviedetail
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.pandam.moviecatalog.data.MovieEntity
+import com.pandam.moviecatalog.data.source.local.entity.MovieEntity
 import com.pandam.moviecatalog.data.source.MovieRepository
 import com.pandam.moviecatalog.utils.DataDummy
+import com.pandam.moviecatalog.vo.Resource
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -30,7 +31,7 @@ class MovieDetailViewModelTest {
     private lateinit var movieRepository: MovieRepository
 
     @Mock
-    private lateinit var movieObserver: Observer<MovieEntity>
+    private lateinit var movieObserver: Observer<Resource<MovieEntity>>
 
     @Before
     fun setUp() {
@@ -38,26 +39,19 @@ class MovieDetailViewModelTest {
     }
 
     @Test
-    fun getMovieById() {
-        val movie = MutableLiveData<MovieEntity>()
-        movie.value = dummyMovie
+    fun `getMovie should be success`() {
+        val expected = MutableLiveData<Resource<MovieEntity>>()
+        expected.value = Resource.success(dummyMovie)
 
-        `when`(movieRepository.getMovie(movieId)).thenReturn(movie)
-        val movieEntity = viewModel.getMovieById(movieId).value
-        verify(movieRepository).getMovie(movieId)
-        assertNotNull(movieEntity)
-        assertEquals(dummyMovie.id,movieEntity?.id)
-        assertEquals(dummyMovie.title,movieEntity?.title)
-        assertEquals(dummyMovie.adult,movieEntity?.adult)
-        assertEquals(dummyMovie.overview,movieEntity?.overview)
-        assertEquals(dummyMovie.poster_path,movieEntity?.poster_path)
-        assertEquals(dummyMovie.release_date,movieEntity?.release_date)
-        if (movieEntity != null) {
-            assertEquals(dummyMovie.vote_average,movieEntity.vote_average,1.0)
-        }
-        assertEquals(dummyMovie.vote_count,movieEntity?.vote_count)
+        `when`(movieRepository.getMovie(movieId)).thenReturn(expected)
 
         viewModel.getMovieById(movieId).observeForever(movieObserver)
-        verify(movieObserver).onChanged(dummyMovie)
+
+        verify(movieObserver).onChanged(expected.value)
+
+        val expectedValue = expected.value
+        val actualValue = viewModel.getMovieById(movieId).value
+
+        assertEquals(expectedValue, actualValue)
     }
 }

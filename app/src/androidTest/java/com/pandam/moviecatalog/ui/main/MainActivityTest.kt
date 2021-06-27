@@ -65,8 +65,6 @@ class MainActivityTest {
             .check(ViewAssertions.matches(withText(dummyMovie[0].vote_average.toString())))
         onView(withId(R.id.text_vote_count))
             .check(ViewAssertions.matches(isDisplayed()))
-        onView(withId(R.id.text_vote_count))
-            .check(ViewAssertions.matches(withText(dummyMovie[0].vote_count.toString())))
         onView(withId(R.id.text_overview))
             .check(ViewAssertions.matches(isDisplayed()))
         onView(withId(R.id.text_overview))
@@ -86,7 +84,7 @@ class MainActivityTest {
 
     @Test
     fun loadDetailTvShow() {
-        onView(withId(R.id.view_pager)).perform(ViewPagerActions.scrollToLast());
+        onView(withId(R.id.view_pager)).perform(ViewPagerActions.scrollToPage(1));
         onView(withId(R.id.rv_tv_show)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
                 0,
@@ -113,5 +111,23 @@ class MainActivityTest {
             .check(ViewAssertions.matches(isDisplayed()))
         onView(withId(R.id.text_overview))
             .check(ViewAssertions.matches(withText(dummyTvShow[0].overview)))
+    }
+
+    @Test
+    fun loadFavMovies() {
+        onView(withId(R.id.view_pager)).perform(ViewPagerActions.scrollToPage(2));
+        onView(withId(R.id.rv_movie))
+            .check(ViewAssertions.matches(isDisplayed()))
+        onView(withId(R.id.rv_movie))
+            .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(dummyTvShow.size))
+    }
+
+    @Test
+    fun loadFavTvShows() {
+        onView(withId(R.id.view_pager)).perform(ViewPagerActions.scrollToPage(3));
+        onView(withId(R.id.rv_tv_show))
+            .check(ViewAssertions.matches(isDisplayed()))
+        onView(withId(R.id.rv_tv_show))
+            .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(dummyTvShow.size))
     }
 }

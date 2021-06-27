@@ -1,4 +1,4 @@
-package com.pandam.moviecatalog.ui.movie
+package com.pandam.moviecatalog.ui.favoritemovie
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +7,6 @@ import com.pandam.moviecatalog.data.source.local.entity.MovieEntity
 import com.pandam.moviecatalog.data.source.MovieRepository
 import com.pandam.moviecatalog.vo.Resource
 
-class MovieViewModel(private val movieRepository: MovieRepository) : ViewModel() {
-    fun getMovies(): LiveData<Resource<PagedList<MovieEntity>>> = movieRepository.getAllMovies()
+class FavoriteMovieViewModel(private val movieRepository: MovieRepository) : ViewModel() {
+    fun getMovies(): LiveData<PagedList<MovieEntity>> = movieRepository.getFavoriteMovies()
 }

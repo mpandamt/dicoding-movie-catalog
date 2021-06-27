@@ -1,4 +1,4 @@
-package com.pandam.moviecatalog.ui.movie
+package com.pandam.moviecatalog.ui.favoritemovie
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -11,10 +11,11 @@ import com.bumptech.glide.request.RequestOptions
 import com.pandam.moviecatalog.R
 import com.pandam.moviecatalog.data.source.local.entity.MovieEntity
 import com.pandam.moviecatalog.databinding.ItemsMovieBinding
+import com.pandam.moviecatalog.ui.movie.MovieAdapter
 import com.pandam.moviecatalog.ui.moviedetail.MovieDetailActivity
 import com.pandam.moviecatalog.utils.Utils
 
-class MovieAdapter : PagedListAdapter<MovieEntity, MovieAdapter.MovieViewHolder>(DIFF_CALLBACK) {
+class FavoriteMovieAdapter : PagedListAdapter<MovieEntity, FavoriteMovieAdapter.MovieViewHolder>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MovieEntity>() {

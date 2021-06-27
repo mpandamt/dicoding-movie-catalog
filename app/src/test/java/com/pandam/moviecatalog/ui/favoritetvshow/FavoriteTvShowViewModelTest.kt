@@ -1,30 +1,30 @@
-package com.pandam.moviecatalog.ui.tvshow
+package com.pandam.moviecatalog.ui.favoritetvshow
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import androidx.paging.PositionalDataSource
-import com.pandam.moviecatalog.data.source.local.entity.TvShowEntity
 import com.pandam.moviecatalog.data.source.MovieRepository
 import com.pandam.moviecatalog.data.source.local.entity.MovieEntity
-import com.pandam.moviecatalog.ui.movie.MovieViewModelTest
+import com.pandam.moviecatalog.data.source.local.entity.TvShowEntity
+import com.pandam.moviecatalog.ui.favoritemovie.FavoriteMovieViewModelTest
+import com.pandam.moviecatalog.ui.tvshow.TvShowViewModel
 import com.pandam.moviecatalog.utils.DataDummy
 import com.pandam.moviecatalog.vo.Resource
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
+import org.junit.Test
+
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 import java.util.concurrent.Executors
-
 @RunWith(MockitoJUnitRunner::class)
-class TvShowViewModelTest {
-    private lateinit var viewModel: TvShowViewModel
+class FavoriteTvShowViewModelTest {
+    private lateinit var viewModel: FavoriteTvShowViewModel
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -33,20 +33,19 @@ class TvShowViewModelTest {
     private lateinit var movieRepository: MovieRepository
 
     @Mock
-    private lateinit var observer: Observer<Resource<PagedList<TvShowEntity>>>
+    private lateinit var observer: Observer<PagedList<TvShowEntity>>
 
     @Before
     fun setUp() {
-        viewModel = TvShowViewModel(movieRepository)
+        viewModel = FavoriteTvShowViewModel(movieRepository)
     }
 
     @Test
     fun `getTvShow should be success`() {
-        val movies = PagedTestDataSources.snapshot(DataDummy.generateDummyTvShow())
-        val expected = MutableLiveData<Resource<PagedList<TvShowEntity>>>()
-        expected.value = Resource.success(movies)
+        val expected = MutableLiveData<PagedList<TvShowEntity>>()
+        expected.value = PagedTestDataSources.snapshot(DataDummy.generateDummyTvShow())
 
-        Mockito.`when`(movieRepository.getAllTvShows()).thenReturn(expected)
+        Mockito.`when`(movieRepository.getFavoriteTvShows()).thenReturn(expected)
 
         viewModel.getTvShow().observeForever(observer)
         Mockito.verify(observer).onChanged(expected.value)
@@ -54,8 +53,8 @@ class TvShowViewModelTest {
         val expectedValue = expected.value
         val actualValue = viewModel.getTvShow().value
         assertEquals(expectedValue, actualValue)
-        assertEquals(expectedValue?.data, actualValue?.data)
-        assertEquals(expectedValue?.data?.size, actualValue?.data?.size)
+        assertEquals(expectedValue?.snapshot(), actualValue?.snapshot())
+        assertEquals(expectedValue?.size, actualValue?.size)
     }
 
     class PagedTestDataSources private constructor(private val items: List<TvShowEntity>) : PositionalDataSource<TvShowEntity>() {

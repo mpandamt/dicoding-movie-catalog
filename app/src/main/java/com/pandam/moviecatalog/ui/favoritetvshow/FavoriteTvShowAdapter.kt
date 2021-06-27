@@ -1,4 +1,4 @@
-package com.pandam.moviecatalog.ui.tvshow
+package com.pandam.moviecatalog.ui.favoritetvshow
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -11,10 +11,11 @@ import com.bumptech.glide.request.RequestOptions
 import com.pandam.moviecatalog.R
 import com.pandam.moviecatalog.data.source.local.entity.TvShowEntity
 import com.pandam.moviecatalog.databinding.ItemsTvShowBinding
+import com.pandam.moviecatalog.ui.tvshow.TvShowAdapter
 import com.pandam.moviecatalog.ui.tvshowdetail.TvShowDetailActivity
 import com.pandam.moviecatalog.utils.Utils
 
-class TvShowAdapter : PagedListAdapter<TvShowEntity,TvShowAdapter.TvShowViewHolder>(DIFF_CALLBACK) {
+class FavoriteTvShowAdapter : PagedListAdapter<TvShowEntity, FavoriteTvShowAdapter.TvShowViewHolder>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TvShowEntity>() {
