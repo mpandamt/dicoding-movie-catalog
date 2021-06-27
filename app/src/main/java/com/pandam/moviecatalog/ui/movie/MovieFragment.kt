@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pandam.moviecatalog.databinding.FragmentMovieBinding
-import com.pandam.moviecatalog.vo.Status
 import com.pandam.moviecatalog.vo.Status.*
 import com.versta.academy.viewmodel.ViewModelFactory
 
@@ -35,9 +34,9 @@ class MovieFragment : Fragment() {
             )[MovieViewModel::class.java]
             val movieAdapter = MovieAdapter()
             fragmentMovieBinding.progressBar.visibility = View.VISIBLE
-            viewModel.getMovies().observe(viewLifecycleOwner,{movies ->
-                if (movies !=null){
-                    when(movies.status){
+            viewModel.getMovies().observe(viewLifecycleOwner, { movies ->
+                if (movies != null) {
+                    when (movies.status) {
                         SUCCESS -> {
                             fragmentMovieBinding.progressBar.visibility = View.GONE
                             movieAdapter.submitList(movies.data)

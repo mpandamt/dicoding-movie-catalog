@@ -19,7 +19,12 @@ class SectionsPagerAdapter(private val mContext: Context, fm: FragmentManager) :
 
     companion object {
         @StringRes
-        private val TAB_TITLES = intArrayOf(R.string.movie, R.string.tv_show, R.string.favorite_movie, R.string.favorite_tv_show)
+        private val TAB_TITLES = intArrayOf(
+            R.string.movie,
+            R.string.tv_show,
+            R.string.favorite_movie,
+            R.string.favorite_tv_show
+        )
     }
 
     override fun getCount(): Int = 4

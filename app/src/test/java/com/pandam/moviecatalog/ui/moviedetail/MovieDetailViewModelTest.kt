@@ -3,12 +3,11 @@ package com.pandam.moviecatalog.ui.moviedetail
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.pandam.moviecatalog.data.source.local.entity.MovieEntity
 import com.pandam.moviecatalog.data.source.MovieRepository
+import com.pandam.moviecatalog.data.source.local.entity.MovieEntity
 import com.pandam.moviecatalog.utils.DataDummy
 import com.pandam.moviecatalog.vo.Resource
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -42,8 +41,10 @@ class MovieDetailViewModelTest {
     fun `getMovie should be success`() {
         val expected = MutableLiveData<Resource<MovieEntity>>()
         expected.value = Resource.success(dummyMovie)
-
         `when`(movieRepository.getMovie(movieId)).thenReturn(expected)
+
+        viewModel.getMovieById(movieId)
+        verify(movieRepository).getMovie(movieId)
 
         viewModel.getMovieById(movieId).observeForever(movieObserver)
 

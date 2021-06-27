@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import androidx.paging.PositionalDataSource
+import com.nhaarman.mockitokotlin2.verify
 import com.pandam.moviecatalog.data.source.local.entity.TvShowEntity
 import com.pandam.moviecatalog.data.source.MovieRepository
 import com.pandam.moviecatalog.data.source.local.entity.MovieEntity
@@ -47,6 +48,9 @@ class TvShowViewModelTest {
         expected.value = Resource.success(movies)
 
         Mockito.`when`(movieRepository.getAllTvShows()).thenReturn(expected)
+
+        viewModel.getTvShow()
+        verify(movieRepository).getAllTvShows()
 
         viewModel.getTvShow().observeForever(observer)
         Mockito.verify(observer).onChanged(expected.value)

@@ -9,8 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pandam.moviecatalog.databinding.FragmentTvShowBinding
-import com.pandam.moviecatalog.ui.movie.MovieAdapter
-import com.pandam.moviecatalog.vo.Status
 import com.pandam.moviecatalog.vo.Status.*
 import com.versta.academy.viewmodel.ViewModelFactory
 
@@ -38,8 +36,8 @@ class TvShowFragment : Fragment() {
 
             val tvShowAdapter = TvShowAdapter()
             fragmentTvShowBinding.progressBar.visibility = View.VISIBLE
-            viewModel.getTvShow().observe(viewLifecycleOwner,{tvShow ->
-                when(tvShow.status){
+            viewModel.getTvShow().observe(viewLifecycleOwner, { tvShow ->
+                when (tvShow.status) {
                     SUCCESS -> {
                         fragmentTvShowBinding.progressBar.visibility = View.GONE
                         tvShowAdapter.submitList(tvShow.data)

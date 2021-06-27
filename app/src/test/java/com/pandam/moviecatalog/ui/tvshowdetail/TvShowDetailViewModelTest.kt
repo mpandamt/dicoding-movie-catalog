@@ -3,6 +3,7 @@ package com.pandam.moviecatalog.ui.tvshowdetail
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.nhaarman.mockitokotlin2.verify
 import com.pandam.moviecatalog.data.source.local.entity.TvShowEntity
 import com.pandam.moviecatalog.data.source.MovieRepository
 import com.pandam.moviecatalog.data.source.local.entity.MovieEntity
@@ -44,6 +45,9 @@ class TvShowDetailViewModelTest {
         expected.value = Resource.success(dummyTvShow)
 
         Mockito.`when`(movieRepository.getTvShow(tvShowId)).thenReturn(expected)
+
+        viewModel.getTvShowById(tvShowId)
+        verify(movieRepository).getTvShow(tvShowId)
 
         viewModel.getTvShowById(tvShowId).observeForever(tvShowObserver)
 

@@ -11,10 +11,9 @@ import com.bumptech.glide.Glide
 import com.pandam.moviecatalog.R
 import com.pandam.moviecatalog.databinding.ActivityTvShowDetailBinding
 import com.pandam.moviecatalog.databinding.FragmentMovieBinding
-import com.pandam.moviecatalog.ui.moviedetail.MovieDetailViewModel
 import com.pandam.moviecatalog.utils.Utils
 import com.pandam.moviecatalog.vo.Status
-import com.pandam.moviecatalog.vo.Status.*
+import com.pandam.moviecatalog.vo.Status.SUCCESS
 import com.versta.academy.viewmodel.ViewModelFactory
 
 class TvShowDetailActivity : AppCompatActivity() {
@@ -45,7 +44,7 @@ class TvShowDetailActivity : AppCompatActivity() {
             )[TvShowDetailViewModel::class.java]
 
             viewModel.getTvShowById(tvShowId).observe(this, { tvShow ->
-                when(tvShow.status){
+                when (tvShow.status) {
                     SUCCESS -> {
                         activityTvShowDetailBinding.apply {
                             textTvTitle.text = tvShow.data?.name
@@ -54,7 +53,12 @@ class TvShowDetailActivity : AppCompatActivity() {
                             textVote.text = tvShow.data?.vote_average.toString()
                             textVoteCount.text = tvShow.data?.vote_count.toString()
                             Glide.with(imgPoster)
-                                .load(tvShow.data?.poster_path?.let { Utils().getImageUrl(it, 500) })
+                                .load(tvShow.data?.poster_path?.let {
+                                    Utils().getImageUrl(
+                                        it,
+                                        500
+                                    )
+                                })
                                 .into(imgPoster)
                         }
                     }
@@ -74,16 +78,17 @@ class TvShowDetailActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_detail, menu)
         this.menu = menu
-        if(tvShowId != 0){
-            viewModel.getTvShowById(tvShowId).observe(this,{
-                when(it.status){
+        if (tvShowId != 0) {
+            viewModel.getTvShowById(tvShowId).observe(this, {
+                when (it.status) {
                     Status.SUCCESS -> {
-                        if(it.data!=null){
+                        if (it.data != null) {
                             state = it.data.is_favorite
                             setFavorite(state)
                         }
                     }
-                    Status.ERROR -> {}
+                    Status.ERROR -> {
+                    }
                     Status.LOADING -> {
 
                     }

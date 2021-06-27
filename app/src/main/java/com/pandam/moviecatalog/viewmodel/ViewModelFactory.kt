@@ -10,10 +10,10 @@ import com.pandam.moviecatalog.ui.favoritetvshow.FavoriteTvShowViewModel
 import com.pandam.moviecatalog.ui.movie.MovieViewModel
 import com.pandam.moviecatalog.ui.moviedetail.MovieDetailViewModel
 import com.pandam.moviecatalog.ui.tvshow.TvShowViewModel
-import com.pandam.moviecatalog.ui.tvshowdetail.TvShowDetailActivity
 import com.pandam.moviecatalog.ui.tvshowdetail.TvShowDetailViewModel
 
-class ViewModelFactory private constructor(private val mMovieRepository: MovieRepository) : ViewModelProvider.NewInstanceFactory() {
+class ViewModelFactory private constructor(private val mMovieRepository: MovieRepository) :
+    ViewModelProvider.NewInstanceFactory() {
 
     companion object {
         @Volatile

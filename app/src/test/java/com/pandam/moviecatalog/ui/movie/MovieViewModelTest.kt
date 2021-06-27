@@ -47,6 +47,9 @@ class MovieViewModelTest {
 
         `when`(movieRepository.getAllMovies()).thenReturn(expected)
 
+        viewModel.getMovies()
+        verify(movieRepository).getAllMovies()
+
         viewModel.getMovies().observeForever(observer)
         verify(observer).onChanged(expected.value)
 

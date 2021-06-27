@@ -1,4 +1,5 @@
 package com.pandam.moviecatalog.api
+
 import com.pandam.moviecatalog.BuildConfig
 import com.pandam.moviecatalog.data.source.remote.MovieItem
 import com.pandam.moviecatalog.data.source.remote.MovieResponse
@@ -24,13 +25,13 @@ interface ApiService {
 
     @GET("movie/{id}")
     fun getMovieDetail(
-        @Path("id") id:Int,
+        @Path("id") id: Int,
         @Query("api_key") api_key: String = BuildConfig.API_KEY
     ): Call<MovieItem>
 
     @GET("tv/{id}")
     fun getTvShowDetail(
-        @Path("id") id:Int,
+        @Path("id") id: Int,
         @Query("api_key") api_key: String = BuildConfig.API_KEY
     ): Call<TvShowItem>
 }

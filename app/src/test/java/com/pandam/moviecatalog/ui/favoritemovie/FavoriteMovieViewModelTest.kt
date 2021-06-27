@@ -49,6 +49,9 @@ class FavoriteMovieViewModelTest {
 
         `when`(movieRepository.getFavoriteMovies()).thenReturn(expected)
 
+        viewModel.getMovies()
+        verify(movieRepository).getFavoriteMovies()
+
         viewModel.getMovies().observeForever(observer)
         verify(observer).onChanged(expected.value)
 

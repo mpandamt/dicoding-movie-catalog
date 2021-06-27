@@ -3,7 +3,6 @@ package com.pandam.moviecatalog.ui.moviedetail
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -11,7 +10,6 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.pandam.moviecatalog.R
-import com.pandam.moviecatalog.data.source.local.entity.MovieEntity
 import com.pandam.moviecatalog.databinding.ActivityMovieDetailBinding
 import com.pandam.moviecatalog.utils.Utils
 import com.pandam.moviecatalog.vo.Status
@@ -22,6 +20,7 @@ class MovieDetailActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_MOVIE = "extra_movie"
     }
+
     private var menu: Menu? = null
     private lateinit var viewModel: MovieDetailViewModel
     private var movieId = 0
@@ -41,8 +40,8 @@ class MovieDetailActivity : AppCompatActivity() {
                 factory
             )[MovieDetailViewModel::class.java]
 
-            viewModel.getMovieById(movieId).observe(this,{movie ->
-                when(movie.status){
+            viewModel.getMovieById(movieId).observe(this, { movie ->
+                when (movie.status) {
                     Status.SUCCESS -> {
                         activityMovieDetailBinding.apply {
                             textMovieTitle.text = movie.data?.title
@@ -72,16 +71,17 @@ class MovieDetailActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_detail, menu)
         this.menu = menu
-        if(movieId != 0){
-            viewModel.getMovieById(movieId).observe(this,{
-                when(it.status){
+        if (movieId != 0) {
+            viewModel.getMovieById(movieId).observe(this, {
+                when (it.status) {
                     Status.SUCCESS -> {
-                        if(it.data!=null){
+                        if (it.data != null) {
                             state = it.data.is_favorite
                             setFavorite(state)
                         }
                     }
-                    Status.ERROR -> {}
+                    Status.ERROR -> {
+                    }
                     Status.LOADING -> {
 
                     }

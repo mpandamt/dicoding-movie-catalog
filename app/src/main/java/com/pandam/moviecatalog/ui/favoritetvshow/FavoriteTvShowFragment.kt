@@ -4,12 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pandam.moviecatalog.databinding.FragmentTvShowBinding
-import com.pandam.moviecatalog.vo.Status
 import com.versta.academy.viewmodel.ViewModelFactory
 
 class FavoriteTvShowFragment : Fragment() {
@@ -36,7 +34,7 @@ class FavoriteTvShowFragment : Fragment() {
 
             val tvShowAdapter = FavoriteTvShowAdapter()
             fragmentTvShowBinding.progressBar.visibility = View.VISIBLE
-            viewModel.getTvShow().observe(viewLifecycleOwner,{tvShow ->
+            viewModel.getTvShow().observe(viewLifecycleOwner, { tvShow ->
                 fragmentTvShowBinding.progressBar.visibility = View.GONE
                 tvShowAdapter.submitList(tvShow)
                 tvShowAdapter.notifyDataSetChanged()

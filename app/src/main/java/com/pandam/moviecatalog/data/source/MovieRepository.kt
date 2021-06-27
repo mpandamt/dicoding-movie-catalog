@@ -1,8 +1,6 @@
 package com.pandam.moviecatalog.data.source
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.pandam.moviecatalog.data.source.local.LocalDataSource
@@ -37,7 +35,8 @@ class MovieRepository private constructor(
     }
 
     override fun getAllMovies(): LiveData<Resource<PagedList<MovieEntity>>> {
-        return object :NetworkBoundResource<PagedList<MovieEntity>,List<MovieItem>>(appExecutors){
+        return object :
+            NetworkBoundResource<PagedList<MovieEntity>, List<MovieItem>>(appExecutors) {
             override fun loadFromDB(): LiveData<PagedList<MovieEntity>> {
                 val config = PagedList.Config.Builder()
                     .setEnablePlaceholders(false)
@@ -47,7 +46,8 @@ class MovieRepository private constructor(
                 return LivePagedListBuilder(localDataSource.getAllMovies(), config).build()
             }
 
-            override fun shouldFetch(data: PagedList<MovieEntity>?): Boolean = data == null || data.isEmpty()
+            override fun shouldFetch(data: PagedList<MovieEntity>?): Boolean =
+                data == null || data.isEmpty()
 
             override fun createCall(): LiveData<ApiResponse<List<MovieItem>>> =
                 remoteDataSource.getAllMovies()
@@ -73,7 +73,7 @@ class MovieRepository private constructor(
         }.asLiveData()
     }
 
-    override fun getFavoriteMovies(): LiveData<PagedList<MovieEntity>>{
+    override fun getFavoriteMovies(): LiveData<PagedList<MovieEntity>> {
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setInitialLoadSizeHint(4)
@@ -83,7 +83,7 @@ class MovieRepository private constructor(
     }
 
     override fun getMovie(movieId: Int): LiveData<Resource<MovieEntity>> {
-        return object : NetworkBoundResource<MovieEntity,MovieItem>(appExecutors){
+        return object : NetworkBoundResource<MovieEntity, MovieItem>(appExecutors) {
             override fun loadFromDB(): LiveData<MovieEntity> =
                 localDataSource.getMovieById(movieId)
 
@@ -111,7 +111,8 @@ class MovieRepository private constructor(
     }
 
     override fun getAllTvShows(): LiveData<Resource<PagedList<TvShowEntity>>> {
-        return object : NetworkBoundResource<PagedList<TvShowEntity>,List<TvShowItem>>(appExecutors){
+        return object :
+            NetworkBoundResource<PagedList<TvShowEntity>, List<TvShowItem>>(appExecutors) {
             override fun loadFromDB(): LiveData<PagedList<TvShowEntity>> {
                 val config = PagedList.Config.Builder()
                     .setEnablePlaceholders(false)
@@ -122,7 +123,7 @@ class MovieRepository private constructor(
             }
 
             override fun shouldFetch(data: PagedList<TvShowEntity>?): Boolean =
-                data==null || data.isEmpty()
+                data == null || data.isEmpty()
 
             override fun createCall(): LiveData<ApiResponse<List<TvShowItem>>> =
                 remoteDataSource.getAllTvShows()
@@ -155,7 +156,7 @@ class MovieRepository private constructor(
     }
 
     override fun getTvShow(tvShowId: Int): LiveData<Resource<TvShowEntity>> {
-        return object : NetworkBoundResource<TvShowEntity,TvShowItem>(appExecutors){
+        return object : NetworkBoundResource<TvShowEntity, TvShowItem>(appExecutors) {
             override fun loadFromDB(): LiveData<TvShowEntity> =
                 localDataSource.getTvShowById(tvShowId)
 
@@ -167,14 +168,14 @@ class MovieRepository private constructor(
 
             override fun saveCallResult(data: TvShowItem) {
                 val tvShowDetail = TvShowEntity(
-                        data.id,
-                        data.name,
-                        data.posterPath,
-                        data.overview,
-                        data.firstAirDate,
-                        data.voteAverage,
-                        data.voteCount
-                    )
+                    data.id,
+                    data.name,
+                    data.posterPath,
+                    data.overview,
+                    data.firstAirDate,
+                    data.voteAverage,
+                    data.voteCount
+                )
                 localDataSource.insertTvShow(tvShowDetail)
             }
 
@@ -182,9 +183,9 @@ class MovieRepository private constructor(
     }
 
     override fun setFavoriteMovie(movieId: Int, state: Boolean) =
-        appExecutors.diskIO().execute{localDataSource.setFavoriteMovie(movieId,state)}
+        appExecutors.diskIO().execute { localDataSource.setFavoriteMovie(movieId, state) }
 
-    override fun setFavoriteTvShow(tvShowId: Int, state: Boolean)=
-        appExecutors.diskIO().execute{localDataSource.setFavoriteTvShow(tvShowId,state)}
+    override fun setFavoriteTvShow(tvShowId: Int, state: Boolean) =
+        appExecutors.diskIO().execute { localDataSource.setFavoriteTvShow(tvShowId, state) }
 
 }

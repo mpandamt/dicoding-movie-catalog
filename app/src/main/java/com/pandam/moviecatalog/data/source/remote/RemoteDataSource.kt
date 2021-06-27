@@ -30,8 +30,8 @@ class RemoteDataSource {
                 response: Response<MovieResponse>
             ) {
                 EspressoIdlingResource.decrement()
-                if(response.isSuccessful){
-                response.body()?.let {
+                if (response.isSuccessful) {
+                    response.body()?.let {
                         resultMovies.value = ApiResponse.success(it.results)
                     }
                 }
@@ -41,11 +41,11 @@ class RemoteDataSource {
 //                resultMovies.value = ApiResponse.error(t.message.toString())
                 EspressoIdlingResource.decrement()
             }
-        });
-        return resultMovies;
+        })
+        return resultMovies
     }
 
-    fun getAllTvShows(): LiveData<ApiResponse<List<TvShowItem>>>  {
+    fun getAllTvShows(): LiveData<ApiResponse<List<TvShowItem>>> {
         EspressoIdlingResource.increment()
         val resultTvShows = MutableLiveData<ApiResponse<List<TvShowItem>>>()
         val client = ApiConfig.getApiService().getTvShows(1)
@@ -55,7 +55,7 @@ class RemoteDataSource {
                 response: Response<TvShowResponse>
             ) {
                 EspressoIdlingResource.decrement()
-                if(response.isSuccessful) {
+                if (response.isSuccessful) {
                     response.body()?.let {
                         resultTvShows.value = ApiResponse.success(it.results)
                     }
@@ -66,7 +66,7 @@ class RemoteDataSource {
                 EspressoIdlingResource.decrement()
             }
         })
-        return resultTvShows;
+        return resultTvShows
     }
 
     fun getMovieById(movieId: Int): LiveData<ApiResponse<MovieItem>> {
@@ -79,7 +79,7 @@ class RemoteDataSource {
                 response: Response<MovieItem>
             ) {
                 EspressoIdlingResource.decrement()
-                if(response.isSuccessful) {
+                if (response.isSuccessful) {
                     response.body()?.let {
                         movie.value = ApiResponse.success(it)
                     }
@@ -93,7 +93,7 @@ class RemoteDataSource {
         return movie
     }
 
-    fun getTvShowById(tvShowId: Int): LiveData<ApiResponse<TvShowItem>>  {
+    fun getTvShowById(tvShowId: Int): LiveData<ApiResponse<TvShowItem>> {
         EspressoIdlingResource.increment()
         val tvShow = MutableLiveData<ApiResponse<TvShowItem>>()
         val client = ApiConfig.getApiService().getTvShowDetail(tvShowId)
@@ -103,7 +103,7 @@ class RemoteDataSource {
                 response: Response<TvShowItem>
             ) {
                 EspressoIdlingResource.decrement()
-                if(response.isSuccessful) {
+                if (response.isSuccessful) {
                     response.body()?.let {
                         tvShow.value = ApiResponse.success(it)
                     }

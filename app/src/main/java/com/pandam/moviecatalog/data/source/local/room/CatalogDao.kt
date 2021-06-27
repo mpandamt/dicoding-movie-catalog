@@ -1,9 +1,11 @@
 package com.pandam.moviecatalog.data.source.local.room
 
-import androidx.annotation.Nullable
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.pandam.moviecatalog.data.source.local.entity.MovieEntity
 import com.pandam.moviecatalog.data.source.local.entity.TvShowEntity
 
@@ -16,7 +18,7 @@ interface CatalogDao {
     fun getTvShows(): DataSource.Factory<Int, TvShowEntity>
 
     @Query("SELECT * FROM movieentities WHERE is_favorite='1'")
-    fun getFavoriteMovies():  DataSource.Factory<Int, MovieEntity>
+    fun getFavoriteMovies(): DataSource.Factory<Int, MovieEntity>
 
     @Query("SELECT * FROM tvshowentities WHERE is_favorite='1'")
     fun getFavoriteTvShows(): DataSource.Factory<Int, TvShowEntity>

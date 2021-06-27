@@ -14,13 +14,15 @@ import com.pandam.moviecatalog.databinding.ItemsTvShowBinding
 import com.pandam.moviecatalog.ui.tvshowdetail.TvShowDetailActivity
 import com.pandam.moviecatalog.utils.Utils
 
-class TvShowAdapter : PagedListAdapter<TvShowEntity,TvShowAdapter.TvShowViewHolder>(DIFF_CALLBACK) {
+class TvShowAdapter :
+    PagedListAdapter<TvShowEntity, TvShowAdapter.TvShowViewHolder>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TvShowEntity>() {
             override fun areItemsTheSame(oldItem: TvShowEntity, newItem: TvShowEntity): Boolean {
                 return oldItem.id == newItem.id
             }
+
             override fun areContentsTheSame(oldItem: TvShowEntity, newItem: TvShowEntity): Boolean {
                 return oldItem == newItem
             }
@@ -59,8 +61,8 @@ class TvShowAdapter : PagedListAdapter<TvShowEntity,TvShowAdapter.TvShowViewHold
     }
 
     override fun onBindViewHolder(holder: TvShowViewHolder, position: Int) {
-        val tvShow =getItem(position)
-        if (tvShow != null){
+        val tvShow = getItem(position)
+        if (tvShow != null) {
             holder.bind(tvShow)
 
         }
